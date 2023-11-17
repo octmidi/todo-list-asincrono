@@ -17,7 +17,9 @@ function App() {
   const obtenerListaDeTareas = () => {
     axios.get('https://playground.4geeks.com/apis/fake/todos/user/octmidi')
       .then(response => {
-        setListItems(response.data);
+        // Filtrar solo los elementos con done: true
+        const tareasCompletadas = response.data.filter(item => item.done === true);
+        setListItems(tareasCompletadas);
       })
       .catch(error => {
         console.error('Error al obtener la lista de tareas:', error.response);
@@ -72,6 +74,17 @@ function App() {
       });
   };
 
+  const handleDeleteAll = () => {
+    // Lógica para borrar todas las tareas en el servidor y actualizar la vista
+    axios.delete('https://playground.4geeks.com/apis/fake/todos/user/octmidi')
+      .then(response => {
+        console.log('Todas las tareas borradas en el servidor:', response.data);
+        setListItems([]); // Limpiar la lista localmente
+      })
+      .catch(error => {
+        console.error('Error al borrar todas las tareas en el servidor:', error.response);
+      });
+  };
   return (
     <>
       <div className='div-back'><h1>Todos</h1></div>
@@ -84,6 +97,7 @@ function App() {
               onChange={handleInputChange}
               onKeyDown={handleKeyPress}
               placeholder="Ingrese un elemento y presione Enter"
+
             />
           </InputGroup>
           {listItems.map((item, index) => (
@@ -102,9 +116,15 @@ function App() {
             </ListGroup.Item>
           ))}
           <ListGroup.Item className='total'>{listItems.length} item left</ListGroup.Item>
+          <ListGroup.Item className="btn">
+            <button className="btn btn-danger btn" onClick={() => handleDeleteAll()}>Delete All </button>
+          </ListGroup.Item>
+
         </ListGroup>
+
       </div>
     </>
+    
   );
 }
 

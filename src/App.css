@@ -34,6 +34,7 @@ body {
 
 .form {
   border-radius: 0%;
+  height: 500px;
 }
 
 .group {
@@ -63,4 +64,13 @@ body {
 .total {
   font-size: 11px;
   font: color rgb(197, 197, 199);
+  margin-top: 1px;
+  border-radius: 0px;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  ;
 }

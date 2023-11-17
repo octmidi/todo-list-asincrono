@@ -1,0 +1,66 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.div-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(165, 80, 80);
+}
+
+.stacked {
+  background: #f6f6f6;
+  border: 1px solid #ccc;
+  height: 250px;
+  margin: 50px auto;
+  width: 300px;
+  box-shadow: 0 0 0 hsla(0, 0%, 0%, .5),
+    0 3px 0 -2px #f6f6f6,
+    0 3px 2px -2px hsla(0, 0%, 0%, .4),
+    0 7px 0 -4px #f6f6f6,
+    0 7px 2px -4px hsla(0, 0%, 0%, .4),
+    0 11px 0 -6px #f6f6f6,
+    0 11px 2px -6px hsla(0, 0%, 0%, .4),
+    0 15px 0 -8px #f6f6f6,
+    0 15px 2px -8px hsla(0, 0%, 0%, .4),
+    0 19px 0 -10px #f6f6f6,
+    0 19px 2px -10px hsla(0, 0%, 0%, .4),
+    0 23px 0 -12px #f6f6f6,
+    0 23px 2px -12px hsla(0, 0%, 0%, .4);
+}
+
+.form {
+  border-radius: 0%;
+}
+
+.group {
+  width: 300px;
+  border-top: none;
+}
+
+.list {
+  display: flex;
+}
+
+.left-aligned-item {
+  display: flex;
+  text-align: left;
+}
+
+.icon {
+  flex-direction: row;
+  float: right;
+}
+
+.icon:hover {
+  transform: scale(1.5);
+  cursor: pointer;
+}
+
+.total {
+  font-size: 11px;
+  font: color rgb(197, 197, 199);
+}

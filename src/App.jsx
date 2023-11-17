@@ -18,7 +18,7 @@ function App() {
     axios.get('https://playground.4geeks.com/apis/fake/todos/user/octmidi')
       .then(response => {
         // Filtrar solo los elementos con done: true
-        const tareasCompletadas = response.data.filter(item => item.done === true);
+        const tareasCompletadas = response.data.filter(task => task.done);
         setListItems(tareasCompletadas);
       })
       .catch(error => {
@@ -36,13 +36,46 @@ function App() {
 
   const handleAddItem = () => {
     if (inputText.trim() !== '') {
-      const nuevaTarea = { label: inputText, done: false };
-      setListItems([...listItems, nuevaTarea]);
-      setInputText('');
+      const nuevaTarea = { label: inputText, done: true };
 
-      actualizarListaEnServidor([...listItems, nuevaTarea]);
+      axios.put('https://playground.4geeks.com/apis/fake/todos/user/octmidi', [...listItems, nuevaTarea])
+        .then(response => {
+          console.log('Lista de tareas actualizada en el servidor:', response.data);
+          setListItems([...listItems, nuevaTarea]); // Solo actualiza la lista local si la actualización en el servidor es exitosa
+          setInputText('');
+        })
+        .catch(error => {
+          console.error('Error al actualizar la lista de tareas en el servidor:', error.response);
+          // Puedes manejar el error aquí según tus necesidades, por ejemplo, mostrando una alerta
+          // No actualices la lista local en caso de un error
+        });
     }
   };
+
+
+  const handleDeleteAll = () => {
+    // Filtrar solo las tareas completadas
+    const tasksToDelete = listItems.filter(item => item.done === true);
+
+    // Borrar solo las tareas completadas en el servidor
+    axios.delete('https://playground.4geeks.com/apis/fake/todos/user/octmidi', {
+      data: { tasks: tasksToDelete }
+    })
+      .then(response => {
+        console.log('Todas las tareas completadas borradas en el servidor:', response.data);
+
+        // Actualizar la lista local excluyendo las tareas borradas
+        const updatedList = listItems.filter(item => item.done !== true);
+        setListItems(updatedList);
+
+        // Update the server with the entire updated list
+        actualizarListaEnServidor(updatedList);
+      })
+      .catch(error => {
+        console.error('Error al borrar tareas en el servidor:', error.response);
+      });
+  };
+
 
   const handleKeyPress = (e) => {
     const regex = /^(?=[a-zA-Z]{2})[\s\w\d]*$/;
@@ -68,23 +101,13 @@ function App() {
     axios.put('https://playground.4geeks.com/apis/fake/todos/user/octmidi', nuevaLista)
       .then(response => {
         console.log('Lista de tareas actualizada en el servidor:', response.data);
+        setListItems(nuevaLista);
       })
       .catch(error => {
         console.error('Error al actualizar la lista de tareas en el servidor:', error.response);
       });
   };
 
-  const handleDeleteAll = () => {
-    // Lógica para borrar todas las tareas en el servidor y actualizar la vista
-    axios.delete('https://playground.4geeks.com/apis/fake/todos/user/octmidi')
-      .then(response => {
-        console.log('Todas las tareas borradas en el servidor:', response.data);
-        setListItems([]); // Limpiar la lista localmente
-      })
-      .catch(error => {
-        console.error('Error al borrar todas las tareas en el servidor:', error.response);
-      });
-  };
   return (
     <>
       <div className='div-back'><h1>Todos</h1></div>

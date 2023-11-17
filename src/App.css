@@ -32,6 +32,10 @@ body {
     0 23px 2px -12px hsla(0, 0%, 0%, .4);
 }
 
+.list_stacked {
+  height: 600px;
+}
+
 .form {
   border-radius: 0%;
   height: 500px;

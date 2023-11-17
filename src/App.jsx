@@ -88,7 +88,7 @@ function App() {
   return (
     <>
       <div className='div-back'><h1>Todos</h1></div>
-      <div className='list stacked'>
+      <div className='list stacked list_stacked'>
         <ListGroup className='group'>
           <InputGroup className="mb-3">
             <FormControl
@@ -96,7 +96,7 @@ function App() {
               value={inputText}
               onChange={handleInputChange}
               onKeyDown={handleKeyPress}
-              placeholder="Ingrese un elemento y presione Enter"
+              placeholder="Enter an item and press enter"
 
             />
           </InputGroup>
@@ -124,7 +124,7 @@ function App() {
 
       </div>
     </>
-    
+
   );
 }
 

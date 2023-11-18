@@ -22,7 +22,15 @@ function App() {
         setListItems(tareasCompletadas);
       })
       .catch(error => {
-        console.error('Error al obtener la lista de tareas:', error.response);
+        if (error.response && error.response.data && error.response.data.msg === "The user octmidi doesn't exists") {
+          // Si el usuario no existe, realiza una solicitud POST para crearlo
+          CrearUsuario();
+        }
+        else {
+
+          console.error('Error al obtener la lista de tareas:', error.response);
+        }
+
       });
   };
 
@@ -67,9 +75,10 @@ function App() {
         // Actualizar la lista local excluyendo las tareas borradas
         const updatedList = listItems.filter(item => item.done !== true);
         setListItems(updatedList);
+        CrearUsuario();
 
-        // Update the server with the entire updated list
-        actualizarListaEnServidor(updatedList);
+        // Verificar y crear el usuario después de borrar las tareas
+
       })
       .catch(error => {
         console.error('Error al borrar tareas en el servidor:', error.response);
@@ -106,6 +115,19 @@ function App() {
       .catch(error => {
         console.error('Error al actualizar la lista de tareas en el servidor:', error.response);
       });
+  };
+
+  const CrearUsuario = () => {
+    axios.post('https://playground.4geeks.com/apis/fake/todos/user/octmidi', [])
+
+      .then(response => {
+        console.log('Usuario creado exitosamente:', response.data);
+      })
+      .catch(error => {
+        console.error('Error al crear el usuario:', error.response);
+      });
+
+
   };
 
   return (
